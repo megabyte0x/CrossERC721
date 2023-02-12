@@ -1,0 +1,29 @@
+{
+  "name": "crosserc721",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.8.1",
+    "@routerprotocol/router-crosstalk-utils": "^0.1.1",
+    "evm-gateway-contract": "^1.0.4"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.1",
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.13.0",
+    "chai": "^4.3.7",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.12.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
+}
