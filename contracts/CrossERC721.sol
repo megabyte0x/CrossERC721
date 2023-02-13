@@ -115,18 +115,22 @@ contract CrossERC721 is ERC721, ICrossTalkApplication {
         );
     }
 
-    // Function to min the NFT on the destination chain.
+    /// @notice Function to handle the request from the gateway contract on the destination chain. It manages data received and calls the function(s).
+    /// @param srcContractAddress is the contract address on the source chain.
+    /// @param payload is the data received from the source chain in bytes.
+    /// @param srcChainId is the chain id of the source chain.
+    /// @param srcChainType is the chain type of the source contrac specified by the Router Protocol.
     function handleRequestFromSource(
         bytes memory srcContractAddress,
         bytes memory payload,
         string memory srcChainId,
         uint64 srcChainType
     ) external override returns (bytes memory) {
-        require(msg.sender == gatewayContract, "only gateway");
+        require(msg.sender == gatewayContract, "ERR:NOT_GATEWAY_CONTRACT");
         require(
             keccak256(srcContractAddress) ==
                 keccak256(ourContractOnChains[srcChainType][srcChainId]),
-            "only our contract on source chain"
+            "ERR:CONTRACT_NOT_FOUND"
         );
 
         TransferParams memory transferParams = abi.decode(
