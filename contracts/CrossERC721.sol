@@ -148,7 +148,11 @@ contract CrossERC721 is ERC721, ICrossTalkApplication {
         return "";
     }
 
-    // Function to handle the acknowledgement received by the gateway contract for the functions executed on the destination chain.
+    /// @notice Function to handle the acknowledgement received by the gateway contract for the functions executed on the destination chain.
+    /// Since we are not expecting any acknowledgement, we will just keep this function empty.
+    /// @param eventIdentifier is the event identifier of the request.
+    /// @param execFlags is the array of boolean values which specifies whether the function executed successfully or not on destination chain.
+    /// @param execData is the array of bytes which contains the data returned by the function executed on the destination chain.
     function handleCrossTalkAck(
         uint64 eventIdentifier,
         bool[] memory execFlags,
