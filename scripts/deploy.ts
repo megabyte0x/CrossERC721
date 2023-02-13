@@ -8,8 +8,14 @@ async function main() {
       ? "0x517f256cc48145c25c27cf453f6f5006e5266543"
       : "0x8EA05371Eb360Eb79c295375CB2cCE9191EFdaD0";
 
+  const tokenId = network.config.chainId == 43113 ? 1 : 2;
+
   const CrossERC721 = await ethers.getContractFactory("CrossERC721");
-  const crossERC721 = await CrossERC721.deploy(gatewayContract, 1000000);
+  const crossERC721 = await CrossERC721.deploy(
+    gatewayContract,
+    1000000,
+    tokenId
+  );
 
   await crossERC721.deployed();
 
@@ -20,7 +26,7 @@ async function main() {
 
   await hre.run("verify:verify", {
     address: crossERC721.address,
-    constructorArguments: [gatewayContract, 1000000],
+    constructorArguments: [gatewayContract, 1000000, tokenId],
   });
 }
 function sleep(ms: number) {

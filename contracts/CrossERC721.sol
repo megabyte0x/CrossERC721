@@ -27,7 +27,8 @@ contract CrossERC721 is ERC721, ICrossTalkApplication {
 
     constructor(
         address payable gatewayAddress,
-        uint64 _destGasLimit
+        uint64 _destGasLimit,
+        uint256 tokenId
     ) ERC721("CrossERC721", "cerc721") {
         // Setting the gateway contract address on the chain on which the contract is going to deployed.
         gatewayContract = gatewayAddress;
@@ -37,7 +38,7 @@ contract CrossERC721 is ERC721, ICrossTalkApplication {
         admin = msg.sender;
 
         // Mint an NFT for ourselves to test the contract.
-        _mint(msg.sender, 1);
+        _mint(msg.sender, tokenId);
     }
 
     // Function to map all the contract addresses of the contract on different chains.
