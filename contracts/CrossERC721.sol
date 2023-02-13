@@ -25,35 +25,36 @@ contract CrossERC721 is ERC721, ICrossTalkApplication {
         bytes recipient;
     }
 
+    /// @notice Constructor to initialize the contract.
+    /// @param gatewayAddress - Address of the gateway contract on the chain on which the contract is going to deployed.
+    /// @param _destGasLimit - Gas limit required to handle cross-chain request on the destination chain.
+    /// @param tokenId - Token Id of the NFT to be minted for testing.
     constructor(
         address payable gatewayAddress,
         uint64 _destGasLimit,
         uint256 tokenId
     ) ERC721("CrossERC721", "cerc721") {
-        // Setting the gateway contract address on the chain on which the contract is going to deployed.
         gatewayContract = gatewayAddress;
-        // Setting the gas limit for the DESTINATION chain.
+
         destGasLimit = _destGasLimit;
-        // Settting the deployer as the admin.
+
         admin = msg.sender;
 
-        // Mint an NFT for ourselves to test the contract.
         _mint(msg.sender, tokenId);
     }
 
-    // @notice Function to map all the contract addresses of the
-    // contract on different chains.
-    // @params chainType - Type of the chain specified by the Router
-    // Protocol on which the contract is deployed.
-    // @params chainId - Chain Id of the chain on which the contract is
-    // deployed.
-    // @params contractAddress - Address of the contract on the chain
+    /// @notice Function to map all the contract addresses of the contract on different chains.
+    /// @param chainType - Type of the chain specified by the Router Protocol on which the contract is deployed.
+    /// @param chainId - Chain Id of the chain on which the contract is deployed.
+    /// @param contractAddress - Address of the contract on the chain
     function setContractOnChain(
         uint64 chainType,
         string memory chainId,
         address contractAddress
     ) external {
         require(msg.sender == admin, "only admin");
+
+        // CrossTalkUtils.toBytes() is a function which converts the address to bytes.
         ourContractOnChains[chainType][chainId] = CrossTalkUtils.toBytes(
             contractAddress
         );
