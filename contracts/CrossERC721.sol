@@ -60,7 +60,13 @@ contract CrossERC721 is ERC721, ICrossTalkApplication {
         );
     }
 
-    // Function to burn the NFT on the source chain and transferring it to the destination chain.
+    /// @notice Function to transfer the NFT from the source chain to the destination chain.
+    /// @param chainType - Type of the chain specified by the Router Protocol on which the nft needs to transferred.
+    /// @param chainId - Chain Id of the destination chain.
+    /// @param expiryDurationInSeconds - Expiry duration in seconds of the request.
+    /// @param destGasPrice - Gas price required to handle the cross-chain request on the destination chain.
+    /// @param _nftId - Token Id of the NFT to be transferred.
+    /// @param _recepient - Address of the recipient on the destination chain.
     function transferCrossChain(
         uint64 chainType,
         string memory chainId,
@@ -72,7 +78,7 @@ contract CrossERC721 is ERC721, ICrossTalkApplication {
         require(
             keccak256(ourContractOnChains[chainType][chainId]) !=
                 keccak256(CrossTalkUtils.toBytes(address(0))),
-            "contract on dest not set"
+            "ERR:CROSS_CHAIN_CONTRACT_NOT_SET"
         );
 
         TransferParams memory transferParams = TransferParams(
@@ -80,14 +86,12 @@ contract CrossERC721 is ERC721, ICrossTalkApplication {
             CrossTalkUtils.toBytes(_recepient)
         );
 
-        require(
-            _ownerOf(transferParams.nftId) == msg.sender,
-            "caller is not the owner"
-        );
+        require(_ownerOf(transferParams.nftId) == msg.sender, "ERR:NOT_OWNER");
 
         // Burn the NFT of the user on the source chain.
         _burn(transferParams.nftId);
 
+        // Encode the transfer parameters to bytes for sending it as payload to the gateway contract.
         bytes memory payload = abi.encode(transferParams);
 
         uint64 expiryTimestamp = uint64(block.timestamp) +
@@ -100,6 +104,8 @@ contract CrossERC721 is ERC721, ICrossTalkApplication {
                 chainType,
                 chainId
             );
+
+        // Call the singleRequestWithoutAcknowledgement() function of to transfer the NFT from the source chain to the destination chain without getting any acknowledgement.
         CrossTalkUtils.singleRequestWithoutAcknowledgement(
             gatewayContract,
             expiryTimestamp,
