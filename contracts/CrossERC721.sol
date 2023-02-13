@@ -41,7 +41,13 @@ contract CrossERC721 is ERC721, ICrossTalkApplication {
         _mint(msg.sender, tokenId);
     }
 
-    // Function to map all the contract addresses of the contract on different chains.
+    // @notice Function to map all the contract addresses of the
+    // contract on different chains.
+    // @params chainType - Type of the chain specified by the Router
+    // Protocol on which the contract is deployed.
+    // @params chainId - Chain Id of the chain on which the contract is
+    // deployed.
+    // @params contractAddress - Address of the contract on the chain
     function setContractOnChain(
         uint64 chainType,
         string memory chainId,
