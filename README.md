@@ -1,6 +1,8 @@
 # CrossERC721
 
-An ERC721 implementation that allows for cross-chain transfers of NFTs.
+A cross-chain NFT using Router Protocol's Cross-Talk. 
+
+Check out the Blog[including video] here: [Cross-Chain NFT w/ Router Protocol](https://blog.megabyte0x.xyz/router-portocol-crosstalk)
 
 ## We used
 
